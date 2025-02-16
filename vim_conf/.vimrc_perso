@@ -1,0 +1,131 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Basic Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set clipboard=unnamed
+set number              " Show absolute line numbers
+set relativenumber      " Show relative line numbers for easier navigation
+set mouse=a
+syntax on
+set smartindent
+set tabstop=4
+set hlsearch
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Custom Key Mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"inoremap { {<cr>	<cr>}<esc>ka
+"inoremap ( ()<esc>ha
+"inoremap [ []<esc>ha
+
+" Quick escape using 'jj'
+inoremap jj <esc>
+
+" Insert new line below with 'ø'
+inoremap ø <esc>o
+
+" Quick C program template with 'mmm'
+inoremap mmm #include <stdio.h><cr>int main(int argc, char **argv)<cr>{<cr><cr>return (0);<cr>}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Completion Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Smart case-sensitive search
+set ignorecase         " Ignore case in search patterns
+set smartcase          " Override ignorecase if search pattern contains uppercase
+
+" Configure completion menu
+set completeopt=menuone,noinsert,noselect,longest    " Show menu even for single match, don't auto-insert
+set shortmess+=c       " Don't show completion messages
+set pumheight=10       " Limit completion menu height
+
+" Set up custom dictionary for C programming
+set dictionary+=~/.vim/dict/c.dict
+set complete-=i        " Remove included files from completion sources
+set complete-=t        " Remove tag files from completion sources
+set complete+=k        " Add dictionary to completion sources
+
+" Enable omni completion
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
+
+" Auto-trigger completion after typing letters
+autocmd InsertCharPre * if !pumvisible() && v:char =~ '[a-zA-Z]' | call feedkeys("\<C-p>") | endif
+
+" Completion navigation
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"     " Tab cycles through completion options
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"   " Shift+Tab cycles backwards
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Alternative Movement Keys (Alt + WASD)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Insert mode movements
+inoremap ∑ <esc>ka     " Move up
+inoremap å <esc>ha     " Move left
+inoremap ß <esc>ja     " Move down
+inoremap ∂ <esc>la     " Move right
+
+" Normal mode movements
+noremap ∑ k            " Move up
+noremap å h            " Move left
+noremap ß j            " Move down
+noremap ∂ l            " Move right
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Theme Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set color scheme
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" File Type Specific Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" C-specific settings
+autocmd FileType c setlocal complete+=k
+autocmd FileType c setlocal dictionary+=~/.vim/dict/c.dict
+
+" Create the tree command
+command! Tree call TreeSetup()
+
+function! TreeSetup()
+    " Create vertical split with file explorer
+    vsplit .
+    
+    " Create horizontal split for preview below left window
+    wincmd h      " Go to left window first
+    below new     " Create preview window below
+    resize 20
+    setlocal buftype=nofile
+    
+    " Go back to the file explorer window
+    wincmd k
+    
+    " Set up autocommand to preview files when cursor moves
+    augroup TreePreview
+        autocmd!
+        autocmd CursorMoved * call PreviewFile()
+    augroup END
+    
+    " Modify netrw behavior to open files in right window
+    let g:netrw_browse_split = 2  " Open files in vertical split
+    let g:netrw_altv = 1         " Split to the right
+    let g:netrw_winsize = 50     " Set window size
+endfunction
+
+function! PreviewFile()
+    " Get the file under cursor
+    let file = expand('<cfile>')
+    
+    " Only proceed if it's a file (not directory)
+    if !isdirectory(file) && filereadable(file)
+        " Go to preview window
+        wincmd j
+        
+        " Clear the buffer and read the file
+        %delete _
+        execute 'silent read' fnameescape(file)
+        normal! gg
+        
+        " Go back to file explorer
+        wincmd k
+    endif
+endfunction
