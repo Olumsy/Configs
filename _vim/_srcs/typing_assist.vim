@@ -15,23 +15,21 @@ autocmd BufEnter * let s:_srcs_path = expand('<sfile>:p:h')
 autocmd BufEnter * let s:extension = substitute(expand('%:t'), '..*\.', '', '') 
 autocmd BufEnter * let s:dict_path = s:_srcs_path . '/dict/' . s:extension . '.dict'
 autocmd BufEnter * call SetupRamDict()
-autocmd BufEnter * if filereadable(expand(s:dict_path)) | let s:dict_bool = 1 | else | let s:dict_bool = 0 | endif
 
 " Load dictionary into RAM and set up custom completion
 function! SetupRamDict()
+  set completefunc=RamDictComplete
   if filereadable(expand(s:dict_path))
     " Read dictionary into a list variable
     let s:ram_dict = readfile(s:dict_path)
     
     " Set up completion function
-    set completefunc=RamDictComplete
     
     " Make sure dictionary is empty so it doesn't show paths
     set dictionary=
   else
     " Reset if no dictionary exists
     let s:ram_dict = []
-    set completefunc&
   endif
 endfunction
 
@@ -78,20 +76,13 @@ function! FileWordComplete(base)
 endfunction
 
 function! CompleteCall()
-	if s:dict_bool
-		call feedkeys("\<C-x>\<C-u>", 'n')
-		return
-	endif
-		if !pumvisible()
-			call feedkeys("\<C-p>", 'n')
-		endif
+	call feedkeys("\<C-x>\<C-u>", 'n')
+	return
 endfunction
 " Change the auto-trigger to use our custom completion function
-" inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>"
 autocmd InsertCharPre * if v:char =~ '\w' | call CompleteCall() | endif
 
 " Keep the remaining settings
-set dictionary+=./
 set complete+=i        " Remove included files from completion sources
 set complete-=t        " Remove tag files from completion sources
 set complete+=k
