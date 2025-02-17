@@ -39,7 +39,9 @@ set shortmess+=c       " Don't show completion messages
 set pumheight=10       " Limit completion menu height
 
 " Set up custom dictionary for C programming
-set dictionary+=~/.vim/dict/c.dict
+set dictionary=
+set dictionary=~/Code/Archive/Configs/vim_conf/_srcs/dict/c.dict
+"autocmd FileType c set dictionary+=~/Code/Archive/Configs/vim_conf/_srcs/dict/c.dict | echo "hi"
 set complete-=i        " Remove included files from completion sources
 set complete-=t        " Remove tag files from completion sources
 set complete+=k        " Add dictionary to completion sources
@@ -81,7 +83,6 @@ noremap ∂ l            " Move right
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " C-specific settings
 autocmd FileType c setlocal complete+=k
-autocmd FileType c setlocal dictionary+=~/.vim/dict/c.dict
 
 " Create the tree command
 command! Tree call TreeSetup()

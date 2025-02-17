@@ -1,0 +1,2 @@
+
+inoremap ø <esc>o

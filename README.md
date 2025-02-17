@@ -12,7 +12,7 @@ To use this Vim configuration loader, first clone the repository:
 2. Source the Loader in Your .vimrc:
 Edit your ~/.vimrc (or ~/.config/nvim/init.vim for Neovim) and add the following line:
 
-"source ~/.vim-config/srcs_loader.vim"
+"source ~/.vim-config/_vim/srcs_loader.vim"
 
 3. Enable the Features You Want:
 Simply remove the " at the beginning of a line to enable a feature.

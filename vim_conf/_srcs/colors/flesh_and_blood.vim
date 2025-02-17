@@ -1,5 +1,9 @@
 " Initialisation:"{{n
 " ----------------------------------------------------------------------------
+
+hi clear
+
+set t_Co=256
 if !has("gui_running") && &t_Co < 256
   finish
 endif
@@ -9,13 +13,12 @@ if !exists("g:hybrid_use_Xresources")
 endif
 
 set background=dark
-hi clear
 
 if exists("syntax_on")
   syntax reset
 endif
 
-let colors_name = "hybrid"
+let colors_name = "flesh_and_blood"
 
 let s:gui = 1
 
@@ -282,6 +285,7 @@ exe "hi! ModeMsg"       .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! MoreMsg"       .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! NonText"       .s:fg_selection   .s:bg_none        .s:fmt_none
 exe "hi! Pmenu"         .s:fg_foreground  .s:bg_selection   .s:fmt_none
+hi PmenuSel         guisp=NONE guifg=#242A30 guibg=#242A30 ctermfg=231 ctermbg=234 gui=NONE cterm=bold,underline
 
 exe "hi! MiniTrailspace"         .s:fg_foreground  .s:bg_selection   .s:fmt_none
 
@@ -482,7 +486,6 @@ hi! link diffAdded Special
 hi clear Search
 hi clear IncSearch
 
-hi @variable guifg=#999999
 hi WinSeparator guifg=#373a40
 
 hi HighlightUndo guibg=#102030
