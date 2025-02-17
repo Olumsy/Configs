@@ -14,3 +14,5 @@ set incsearch
 set noerrorbells
 set visualbell
 set t_vb=
+hi Normal ctermbg=NONE guibg=NONE
+hi NonText ctermbg=NONE guibg=NONE
