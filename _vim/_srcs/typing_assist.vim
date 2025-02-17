@@ -92,9 +92,10 @@ autocmd InsertCharPre * if v:char =~ '\w' | call CompleteCall() | endif
 
 " Keep the remaining settings
 set dictionary+=./
-set complete-=i        " Remove included files from completion sources
+set complete+=i        " Remove included files from completion sources
 set complete-=t        " Remove tag files from completion sources
 set complete+=k
 set complete+=w
+set complete-=b
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
