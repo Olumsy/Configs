@@ -5,7 +5,7 @@ This repository contains all my personal configuration files for various tools a
 1. Clone the Repository:
 To use this Vim configuration loader, first clone the repository:
 
-"git clone git@github.com:Olumsy/Configs.git ~/.vim-config"
+"git clone [git@github.com:Olumsy/Configs.git](https://github.com/Olumsy/Configs.git)  ~/.vim-config"
 
 (Replace ~/.vim-config with your preferred directory if needed.)
 
