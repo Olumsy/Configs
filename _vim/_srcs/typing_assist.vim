@@ -39,7 +39,7 @@ function! RamDictComplete(findstart, base)
     " Locate the start of the word
     let line = getline('.')
     let start = col('.') - 1
-    while start > 0 && line[start - 1] !~ '\s'
+    while start > 0 && line[start - 1] =~ '\a'
       let start -= 1
     endwhile
     return start
@@ -64,6 +64,8 @@ function! FileWordComplete(base)
   let words = []
   for line in lines
     let words += split(line, '\W\+')
+  for line in lines
+    let words += split(line, '\s')
   endfor
 
   " Remove duplicates
