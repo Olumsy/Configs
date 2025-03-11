@@ -14,6 +14,9 @@ endif
 let g:colors_name='calm_forest'
 set t_Co=256
 
+syn match dFunction "\v\w+\("
+hi link dFunction Function
+
 " bolding policy
 "LineNr
 "CursorLineNr
@@ -95,7 +98,7 @@ hi WildMenu         guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 
 " major
 
 hi Normal     guisp=NONE guifg=#757F45 guibg=NONE ctermfg=145 ctermbg=235  gui=NONE cterm=NONE
-hi Comment    guisp=NONE guifg=#404C12 guibg=NONE ctermfg=238 ctermbg=NONE gui=NONE cterm=NONE
+hi Comment    guisp=NONE guifg=#455114 guibg=NONE ctermfg=238 ctermbg=NONE gui=NONE cterm=NONE
 hi Constant   guisp=NONE guifg=#ABE6BC guibg=NONE ctermfg=185 ctermbg=234  gui=NONE   cterm=bold
 hi Identifier guisp=NONE guifg=#AFFC50 guibg=NONE ctermfg=143 ctermbg=234  gui=NONE   cterm=bold
 hi Statement  guisp=NONE guifg=#E5DE9F guibg=NONE ctermfg=65  ctermbg=234  gui=NONE   cterm=NONE

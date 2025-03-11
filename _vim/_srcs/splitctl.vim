@@ -22,3 +22,11 @@ map <C-Left> :call WinMove('h')<cr>
 map <C-Up> :call WinMove('k')<cr>
 map <C-Right> :call WinMove('l')<cr>
 map <C-Down> :call WinMove('j')<cr>
+
+""terminal
+tnoremap <C-Left> <C-\><C-n>:call WinMove('h')<cr>
+tnoremap <C-Up> <C-\><C-n>:call WinMove('k')<cr>
+tnoremap <C-Right> <C-\><C-n>:call WinMove('l')<cr>
+tnoremap <C-Down> <C-\><C-n>:call WinMove('j')<cr>
+tnoremap <Esc><Esc> <C-\><C-n>
+command! T execute 'terminal' | :call WinMove('j') | :q
