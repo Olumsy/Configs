@@ -21,5 +21,5 @@ if g:enable_colorscheme
 	" 				calm_forest
 	" 				darktheme
 	" 				flesh_and_blood
-	colorscheme darktheme
+	colorscheme calm_forest
 endif

@@ -83,12 +83,12 @@ hi SpellLocal       guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 
 hi SpellRare        guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi StatusLine       guisp=NONE guifg=#FFC853 guibg=#787575 ctermfg=231 ctermbg=234 gui=NONE cterm=bold,underline
 hi StatusLineNC     guisp=NONE guifg=#384545 guibg=#787575 ctermfg=231 ctermbg=234 gui=NONE cterm=underline
-hi StatusLineTerm   guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
-hi StatusLineTermNC guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
+hi StatusLineTerm   guisp=NONE guifg=#FFC853 guibg=#787575 ctermfg=231 ctermbg=234 gui=NONE cterm=bold,underline
+hi StatusLineTermNC guisp=NONE guifg=#384545 guibg=#787575 ctermfg=231 ctermbg=234 gui=NONE cterm=underline
 hi TabLine          guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi TabLineFill      guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi TabLineSel       guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
-hi Terminal         guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
+hi Terminal         guisp=NONE guifg=#587575 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi Title            guisp=NONE guifg=#ffd700 guibg=NONE ctermfg=220 ctermbg=234 gui=NONE cterm=NONE
 hi Visual           guisp=NONE guifg=NONE guibg=#292929 ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi VisualNOS        guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
@@ -98,7 +98,7 @@ hi WildMenu         guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 
 " major
 
 hi Normal     guisp=NONE guifg=#757F45 guibg=NONE ctermfg=145 ctermbg=235  gui=NONE cterm=NONE
-hi Comment    guisp=NONE guifg=#455114 guibg=NONE ctermfg=238 ctermbg=NONE gui=NONE cterm=NONE
+hi Comment    guisp=NONE guifg=#556718 guibg=NONE ctermfg=238 ctermbg=NONE gui=NONE cterm=NONE
 hi Constant   guisp=NONE guifg=#ABE6BC guibg=NONE ctermfg=185 ctermbg=234  gui=NONE   cterm=bold
 hi Identifier guisp=NONE guifg=#AFFC50 guibg=NONE ctermfg=143 ctermbg=234  gui=NONE   cterm=bold
 hi Statement  guisp=NONE guifg=#E5DE9F guibg=NONE ctermfg=65  ctermbg=234  gui=NONE   cterm=NONE
