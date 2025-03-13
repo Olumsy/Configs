@@ -127,7 +127,7 @@ hi Include        guisp=NONE guifg=#678C61 guibg=NONE ctermfg=65  ctermbg=234 gu
 hi Define         guisp=NONE guifg=#678C61 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi Macro          guisp=NONE guifg=#618c61 guibg=NONE ctermfg=65  ctermbg=234 gui=bold cterm=bold
 hi PreCondit      guisp=NONE guifg=#4F7E7E guibg=NONE ctermfg=116 ctermbg=234 gui=NONE cterm=NONE
-hi StorageClass   guisp=NONE guifg=#b178eb guibg=NONE ctermfg=141 ctermbg=234 gui=NONE cterm=NONE
+hi StorageClass   guisp=NONE guifg=#FFC853 guibg=NONE ctermfg=141 ctermbg=234 gui=NONE cterm=NONE
 hi Structure      guisp=NONE guifg=#437F7F guibg=NONE ctermfg=80  ctermbg=234 gui=bold cterm=bold
 hi Typedef        guisp=NONE guifg=#C8D249 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi SpecialChar    guisp=NONE guifg=#C8D249 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
