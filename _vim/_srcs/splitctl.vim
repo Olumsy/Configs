@@ -40,6 +40,6 @@ tnoremap <C-Up> <C-\><C-n>:call WinMove('k')<cr>
 tnoremap <C-Right> <C-\><C-n>:call WinMove('l')<cr>
 tnoremap <C-Down> <C-\><C-n>:call WinMove('j')<cr>
 tnoremap <Esc><Esc> <C-\><C-n>
-tnoremap <C-p> <C-w>:call TermPaste()<cr>
+tnoremap <C-v> <C-w>:call TermPaste()<cr>
 command! T execute 'terminal' | :call WinMove('j') | :q
 
