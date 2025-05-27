@@ -15,4 +15,4 @@ Edit your ~/.vimrc (or ~/.config/nvim/init.vim for Neovim) and add the following
 "source ~/.vim-config/_vim/srcs_loader.vim"
 
 3. Enable the Features You Want:
-Simply remove the " at the beginning of a line to enable a feature.
+Edit srcs_loader.vim by removing the " at the beginning of a line to enable the feature.
