@@ -54,14 +54,14 @@ function! RamDictComplete(findstart, base)
 			endif
 		endfor
 		let s:matches += FileWordComplete(a:base, 'self')
-		echom s:matches
+		" echom s:matches
 		return {'words': s:matches, 'refresh': 'always'}
 	endif
 endfunction
 
 function! FileWordComplete(base, filename)
 	" Get the current file name in the form of './filename'
-	echom "x"
+	" echom "x"
 
 	" Read lines from the specified file
 	let path = expand('%:p:h') . '/'
@@ -119,7 +119,7 @@ let g:is_completing = 0
 function! CompleteCaller()
 	if g:is_completing | return | endif
 	let g:is_completing = 1
-	echom "hey"
+	" echom "hey"
 	if v:char =~ '\w'
 		call feedkeys("\<C-x>\<C-u>", 'n')
 	endif
