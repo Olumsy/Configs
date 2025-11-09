@@ -18,6 +18,8 @@ autocmd BufEnter * call SetupRamDict()
 
 let s:completion_bool = 1
 let s:matches = []
+let s:cached_words = []
+let s:update_interval = 1000
 
 " Load dictionary into RAM and set up custom completion
 function! SetupRamDict()
@@ -36,6 +38,18 @@ function! SetupRamDict()
 	endif
 endfunction
 
+function! s:UpdateWords(timer)
+    " Rebuild the word cache
+    if filereadable(expand(s:dict_path))
+        let s:ram_dict = readfile(s:dict_path)
+    else
+        let s:ram_dict = []
+    endif
+
+    " Merge with file words
+    let s:cached_words = copy(s:ram_dict) + FileWordComplete('', 'self')
+endfunction
+
 " Custom completion function using RAM dictionary
 function! RamDictComplete(findstart, base)
 	if a:findstart
@@ -47,15 +61,8 @@ function! RamDictComplete(findstart, base)
 		endwhile
 		return start
 	else
-		let s:matches = []
-		for word in s:ram_dict
-			if word =~ '^' . a:base
-				call add(s:matches, word)
-			endif
-		endfor
-		let s:matches += FileWordComplete(a:base, 'self')
-		" echom s:matches
-		return {'words': s:matches, 'refresh': 'always'}
+        let matches = filter(copy(s:cached_words), 'v:val =~ "^" . a:base')
+        return {'words': matches, 'refresh': 'always'}
 	endif
 endfunction
 
@@ -134,6 +141,8 @@ function! CompleteCaller()
 endfunction
 " Change the auto-trigger to use our custom completion function
 autocmd InsertCharPre * if !g:is_completing | call CompleteCaller()
+" Start repeating timer
+let s:timer_id = timer_start(s:update_interval, 's:UpdateWords', {'repeat': -1})
 
 " Keep the remaining settings
 set complete+=i				" Remove included files from completion sources
