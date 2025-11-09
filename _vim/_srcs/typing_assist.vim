@@ -68,16 +68,22 @@ function! FileWordComplete(base, filename)
 	if a:filename == 'self'
 		let lines = getline(1, '$')
 	else
-		let lines = readfile(path . a:filename)
+		let lines = readfile(a:filename)
 	endif
 
 	" Extract words from all lines using regex
 	let words = {}
 	for line in lines
-		if line =~ '"\v\zs\.\/.*"'
-			let new_file = matchstr(line, '"\v\zs\.\/.*"')
-			let new_file = strpart(new_file, 0, len(new_file) - 1)
-			if filereadable(expand(path . new_file)) | for word in FileWordComplete(a:base, new_file) | let words[word] = 1 | endfor | endif
+		if line =~ '\v#\s*include\s*"\zs.*\ze"'
+			let new_file = matchstr(line, '\v#\s*include\s*"\zs.*\ze"')
+			let g:include_paths = systemlist('make -Bn 2>/dev/null | grep -o "\-I[^ ]*" | sed "s/^-I//" | sort -u')
+			call add(g:include_paths, '')
+			for path in g:include_paths
+				let include_file = path . "/" . new_file
+				let final_path = expand(getcwd() . "/" . include_file)
+				" echom path include_file "," final_path
+				if filereadable(final_path) | for word in FileWordComplete(a:base, final_path) | let words[word] = 1 | endfor | endif
+			endfor
 		endif
 		let temp_words = split(line, '\W\+')
 		for word in temp_words

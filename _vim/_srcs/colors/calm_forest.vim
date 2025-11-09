@@ -44,7 +44,7 @@ hi link dFunction Function
 
 hi ColorColumn      guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi Conceal          guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
-hi Cursor           guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
+hi Cursor           guisp=NONE guifg=#384545 guibg=#a9a929 ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi lCursor          guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi CursorIM         guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi CursorColumn     guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
@@ -90,14 +90,16 @@ hi TabLineFill      guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 
 hi TabLineSel       guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi Terminal         guisp=NONE guifg=#587575 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi Title            guisp=NONE guifg=#ffd700 guibg=NONE ctermfg=220 ctermbg=234 gui=NONE cterm=NONE
-hi Visual           guisp=NONE guifg=NONE guibg=#292929 ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
+hi Visual           guisp=NONE guifg=#000000 guibg=#FFC853 ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi VisualNOS        guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi WarningMsg       guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi WildMenu         guisp=NONE guifg=#384545 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 
 " major
 
-hi Normal     guisp=NONE guifg=#757F45 guibg=NONE ctermfg=145 ctermbg=235  gui=NONE cterm=NONE
+hi Normal     guisp=NONE guifg=#d1e1d1 guibg=NONE ctermfg=145 ctermbg=235  gui=NONE cterm=NONE
+hi netrwDir     guisp=NONE guifg=#c1c181 guibg=NONE ctermfg=145 ctermbg=235  gui=NONE cterm=NONE
+hi netrwExe     guisp=NONE guifg=#d1e1d1 guibg=NONE ctermfg=145 ctermbg=235  gui=NONE cterm=NONE
 hi Comment    guisp=NONE guifg=#556718 guibg=NONE ctermfg=238 ctermbg=NONE gui=NONE cterm=NONE
 hi Constant   guisp=NONE guifg=#ABE6BC guibg=NONE ctermfg=185 ctermbg=234  gui=NONE   cterm=bold
 hi Identifier guisp=NONE guifg=#AFFC50 guibg=NONE ctermfg=143 ctermbg=234  gui=NONE   cterm=bold
@@ -116,7 +118,7 @@ hi Character      guisp=NONE guifg=#B178EB guibg=NONE ctermfg=231 ctermbg=234 gu
 hi Number         guisp=NONE guifg=#587575 guibg=NONE ctermfg=121 ctermbg=234 gui=bold cterm=NONE
 hi Boolean        guisp=NONE guifg=#F1A534 guibg=NONE ctermfg=149 ctermbg=234 gui=bold cterm=bold
 hi Float          guisp=NONE guifg=#F1A534 guibg=NONE ctermfg=32  ctermbg=235 gui=bold cterm=bold
-hi Function       guisp=NONE guifg=#436545 guibg=NONE ctermfg=214 ctermbg=234 gui=bold cterm=bold,italic
+hi Function       guisp=NONE guifg=#467555 guibg=NONE ctermfg=214 ctermbg=234 gui=bold cterm=bold,italic
 hi Conditional    guisp=NONE guifg=#E5C56C guibg=NONE ctermfg=67  ctermbg=234 gui=NONE cterm=NONE
 hi Repeat         guisp=NONE guifg=#E5C56C guibg=NONE ctermfg=32  ctermbg=234 gui=NONE cterm=NONE
 hi Label          guisp=NONE guifg=#E5C56C guibg=NONE ctermfg=32  ctermbg=234 gui=bold cterm=bold
@@ -136,5 +138,5 @@ hi Delimiter      guisp=NONE guifg=#816C00 guibg=NONE ctermfg=220 ctermbg=234 gu
 hi SpecialComment guisp=NONE guifg=#6F8038 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 hi Debug          guisp=NONE guifg=#6F8038 guibg=NONE ctermfg=231 ctermbg=234 gui=NONE cterm=NONE
 
-syn match dFunction "\zs\(\k\w*\)*\s*\ze("
+syn match dFunction "\zs\(\w\)\+\ze("
 hi link dFunction Function
