@@ -18,6 +18,7 @@ autocmd BufEnter * call SetupRamDict()
 
 let s:completion_bool = 1
 let s:matches = []
+let g:include_paths = []
 let s:cached_words = []
 let s:update_interval = 1000
 
@@ -38,7 +39,7 @@ function! SetupRamDict()
 	endif
 endfunction
 
-function! s:UpdateWords(timer)
+function! s:UpdateWords()
     " Rebuild the word cache
     if filereadable(expand(s:dict_path))
         let s:ram_dict = readfile(s:dict_path)
@@ -46,12 +47,12 @@ function! s:UpdateWords(timer)
         let s:ram_dict = []
     endif
 
-    " Merge with file words
-    let s:cached_words = copy(s:ram_dict) + FileWordComplete('', 'self')
+	call extend(s:cached_words, copy(s:ram_dict))
 endfunction
 
 " Custom completion function using RAM dictionary
 function! RamDictComplete(findstart, base)
+	" echom "what: " a:findstart a:base
 	if a:findstart
 		" Locate the start of the word
 		let line = getline('.')
@@ -61,12 +62,44 @@ function! RamDictComplete(findstart, base)
 		endwhile
 		return start
 	else
+		call FileWordComplete(a:base, 'self')
+		call s:UpdateWords()
         let matches = filter(copy(s:cached_words), 'v:val =~ "^" . a:base')
+		" let matches = copy(s:cached_words)
         return {'words': matches, 'refresh': 'always'}
 	endif
 endfunction
 
+" ---------- stdout callback ----------
+function! s:OnJobStdout(channel, data) abort
+    let lines = filter(copy(a:data), 'v:val !=# ""')
+	" echom ">> " string(type(lines))
+    if !empty(lines)
+        let s:cached_words = split(lines)
+    endif
+endfunction
+
+function! s:OnJobStderr(channel, data) abort
+	" echom ">> Error: " a:data
+endfunction
+
+function! StartUpdateJob(base, filename)
+	let cmd = 'python3 ' . s:_srcs_path . '/' . 'typing_utils.py ' . a:base . ' ' . a:filename . ' | tr "\n" " "'
+
+    " echom "start the job" cmd
+    let s:job_id = job_start(['sh', '-c', cmd], {
+                \ "out_cb": "s:OnJobStdout",
+                \ "err_cb": "s:OnJobStderr"})
+endfunction
+
 function! FileWordComplete(base, filename)
+	let name = a:filename
+	if a:filename == 'self'
+		let name = expand('%:p')
+		" echom "line: " name
+	endif
+	call StartUpdateJob(a:base, name)
+	return
 	" Get the current file name in the form of './filename'
 	" echom "x"
 
@@ -83,7 +116,11 @@ function! FileWordComplete(base, filename)
 	for line in lines
 		if line =~ '\v#\s*include\s*"\zs.*\ze"'
 			let new_file = matchstr(line, '\v#\s*include\s*"\zs.*\ze"')
-			let g:include_paths = systemlist('make -Bn 2>/dev/null | grep -o "\-I[^ ]*" | sed "s/^-I//" | sort -u')
+			let g:include_paths = []
+			call StartUpdateJob(a:base, a:filename)
+			" let g:include_paths = systemlist('make -Bn 2>/dev/null | grep -o "\-I[^ ]*" | sed "s/^-I//" | sort -u')
+			" let g:include_paths = ['includes']
+			" echom "includes: "g:include_paths
 			call add(g:include_paths, '')
 			for path in g:include_paths
 				let include_file = path . "/" . new_file
@@ -97,36 +134,9 @@ function! FileWordComplete(base, filename)
 			if word =~ '^' . a:base | let words[word] = 1 | endif
 		endfor
 	endfor
-
-	" Remove duplicates
-	" let words = uniq(sort(words))
-
-	" Filter words that start with the given base
-	"let matches = filter(words, 'v:val =~ "^" . a:base')
 	let matches = keys(words)
 	return matches
 endfunction
-
-" function! FileWordComplete(base)
-"	 " Get all lines from the current file
-"	 let lines = getline(1, '$')
-" 
-"	 " Extract words from all lines using regex
-"	 let words = []
-"	 for line in lines
-"		 let words += split(line, '\W\+')
-"	 for line in lines
-"		 let words += split(line, '\s')
-"	 endfor
-" 
-"	 " Remove duplicates
-"	 let words = uniq(sort(words))
-" 
-"	 " Filter words that start with the given base
-"	 let matches = filter(words, 'v:val =~ "^" . a:base')
-" 
-"	 return matches
-" endfunction
 
 let g:is_completing = 0
 function! CompleteCaller()
@@ -142,7 +152,7 @@ endfunction
 " Change the auto-trigger to use our custom completion function
 autocmd InsertCharPre * if !g:is_completing | call CompleteCaller()
 " Start repeating timer
-let s:timer_id = timer_start(s:update_interval, 's:UpdateWords', {'repeat': -1})
+" let s:timer_id = timer_start(s:update_interval, 's:UpdateWords', {'repeat': -1})
 
 " Keep the remaining settings
 set complete+=i				" Remove included files from completion sources
