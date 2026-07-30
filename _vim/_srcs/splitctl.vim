@@ -43,3 +43,8 @@ tnoremap <C-j> <C-w>:call WinMove('j')<cr>
 
 tnoremap <Esc><Esc> <C-\><C-n>
 command! T execute 'terminal' | :call WinMove('j') | :q
+
+augroup FixNetrwCtrlL
+    autocmd!
+    autocmd FileType netrw silent! nunmap <buffer> <C-L>
+augroup END

@@ -53,18 +53,28 @@ endfunction
 " Custom completion function using RAM dictionary
 function! RamDictComplete(findstart, base)
 	" echom "what: " a:findstart a:base
+	let current = a:base
 	if a:findstart
 		" Locate the start of the word
 		let line = getline('.')
 		let start = col('.') - 1
-		while start > 0 && line[start - 1] =~ '\w'
+		while start > 0 && line[start - 1] =~ '[#A-Za-z0-9_:]'
 			let start -= 1
 		endwhile
 		return start
 	else
-		call FileWordComplete(a:base, 'self')
+		if current == ""
+			let line = getline('.')
+			let coln = col('.') - 1
+			let current = matchstr(line[:coln-1], '[^[:space:]]*$')
+		endif
+		if current == ""
+			return 0
+		endif
+		call FileWordComplete(current, 'self')
 		call s:UpdateWords()
-        let matches = filter(copy(s:cached_words), 'v:val =~ "^" . a:base')
+		let matches = filter(copy(s:cached_words), 'stridx(v:val, current) == 0')
+		" echom "LIST for [" . current . "](" . a:findstart . "): [" . string(matches) . "]"
 		" let matches = copy(s:cached_words)
         return {'words': matches, 'refresh': 'always'}
 	endif
@@ -138,19 +148,40 @@ function! FileWordComplete(base, filename)
 	return matches
 endfunction
 
+let s:prev_match = ''
 let g:is_completing = 0
-function! CompleteCaller()
-	if g:is_completing | return | endif
-	let g:is_completing = 1
-	" echom "hey"
-	if v:char =~ '\w'
-		call feedkeys("\<C-x>\<C-u>", 'n')
+
+function! CompleteCaller() abort
+	" echom "sys: func CompleteCaller() -> prev [" . s:prev_match . "] completing: " . g:is_completing
+
+	if g:is_completing || pumvisible()
+		return
 	endif
+
+	let line = getline('.')
+	let coln = col('.') - 1
+
+	" Extract current word before cursor
+	let current = matchstr(line[:coln-1], '[^[:space:]]*$')
+	" echom "CURRENT [" . current . "]"
+	if (current == s:prev_match)
+		return
+	endif
+	let s:prev_match = current
+
+	" Minimum length before triggering
+	if strlen(current) < 1
+		return
+	endif
+
+	let g:is_completing = 1
+	call feedkeys("\<C-x>\<C-u>", 'i')
 	let g:is_completing = 0
-	return
 endfunction
-" Change the auto-trigger to use our custom completion function
-autocmd InsertCharPre * if !g:is_completing | call CompleteCaller()
+
+autocmd TextChangedI * call CompleteCaller()
+autocmd InsertEnter * let b:cmp_timer = timer_start(100, { -> CompleteCaller() }, {'repeat': -1})
+autocmd InsertLeave * call timer_stop(b:cmp_timer)
 " Start repeating timer
 " let s:timer_id = timer_start(s:update_interval, 's:UpdateWords', {'repeat': -1})
 

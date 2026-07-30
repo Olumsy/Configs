@@ -10,6 +10,7 @@ let g:enable_colorscheme = 0
 " execute 'source ' . s:_srcs_path . '/easy_comment.vim'	|	" Press ctrl+k to comment n lines in c
  execute 'source ' . s:_srcs_path . '/remap_jj.vim'		|	" Write jj to leave insert mode
  execute 'source ' . s:_srcs_path . '/remap_alto.vim'		|	" Press alt+o to append an empty line under the cursor
+ execute 'source ' . s:_srcs_path . '/CppClass.vim'		|	" Cpp class snippet
  let g:enable_colorscheme = 1								|	" Enable custom themes (choose the theme under the 'Themes' header)
 
 " Themes:
