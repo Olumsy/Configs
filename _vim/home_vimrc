@@ -1,0 +1,80 @@
+
+source ~/.vim-config/_vim/srcs_loader.vim
+
+" Theme for this computer
+hi Normal ctermbg=NONE guibg=NONE
+hi NonText ctermbg=NONE guibg=NONE
+hi cErrInParen term=NONE
+set termguicolors
+colorscheme calm_forest
+
+" Better netrw
+let g:netrw_right_count = 0
+
+autocmd FileType netrw nnoremap <buffer> l <CR>
+let g:netrw_banner = 0
+" Disable swap file by default
+set noswapfile
+
+" Enable swap file if buffer is modified
+autocmd BufReadPost * setlocal swapfile
+autocmd InsertEnter * setlocal swapfile
+
+" Disable swap after writing the file
+autocmd BufWritePost * setlocal noswapfile
+set clipboard=unnamedplus
+
+" Better Ctags
+nnoremap <silent> <C-]> :silent! !ctags -R --exclude=.git --exclude=node_modules . && printf "\033[2J" <CR>:redraw! <CR><C-]><CR>
+autocmd VimLeave * silent! call delete(expand('tags'))
+
+autocmd FileType * inoremap <silent> ko <C-o>
+set norelativenumber
+
+" Auto highlight missing ; in header
+
+" augroup HighlightNewlineAfterParen
+"   autocmd!
+"   autocmd BufRead,BufNewFile *.h call HighlightNewlineAfterParen()
+" augroup END
+
+function! HighlightNewlineAfterParen()
+  " Define custom highlight group with red background
+  highlight RedNewline guibg=#FF0000 ctermbg=Red
+
+  " Add a match for newlines that follow a closing parenthesis
+  call matchadd('RedNewline', '\%()\)\zs\n')
+endfunction
+
+set wildmenu
+
+colorscheme wildcharm
+autocmd FileType netrw setlocal number
+
+nnoremap <Up>    <Nop>
+nnoremap <Down>  <Nop>
+nnoremap <Left>  <Nop>
+nnoremap <Right> <Nop>
+
+inoremap <Up>    <Nop>
+inoremap <Down>  <Nop>
+inoremap <Left>  <Nop>
+inoremap <Right> <Nop>
+
+vnoremap <Up>    <Nop>
+vnoremap <Down>  <Nop>
+vnoremap <Left>  <Nop>
+vnoremap <Right> <Nop>
+
+call plug#begin()
+
+Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'preservim/nerdtree'
+
+call plug#end()
+
+syntax on
+filetype plugin indent on
+
+set list
+set listchars=space:·,tab:+·
