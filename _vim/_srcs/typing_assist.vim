@@ -52,13 +52,12 @@ endfunction
 
 " Custom completion function using RAM dictionary
 function! RamDictComplete(findstart, base)
-	" echom "what: " a:findstart a:base
 	let current = a:base
 	if a:findstart
-		" Locate the start of the word
 		let line = getline('.')
 		let start = col('.') - 1
-		while start > 0 && line[start - 1] =~ '[#A-Za-z0-9_:]'
+		" no ':' here, so completion starts after "Channel::"
+		while start > 0 && line[start - 1] =~ '[#A-Za-z0-9_]'
 			let start -= 1
 		endwhile
 		return start
@@ -66,7 +65,7 @@ function! RamDictComplete(findstart, base)
 		if current == ""
 			let line = getline('.')
 			let coln = col('.') - 1
-			let current = matchstr(line[:coln-1], '[^[:space:]]*$')
+			let current = matchstr(line[:coln-1], '[#A-Za-z0-9_]*$')
 		endif
 		if current == ""
 			return 0
@@ -74,9 +73,7 @@ function! RamDictComplete(findstart, base)
 		call FileWordComplete(current, 'self')
 		call s:UpdateWords()
 		let matches = filter(copy(s:cached_words), 'stridx(v:val, current) == 0')
-		" echom "LIST for [" . current . "](" . a:findstart . "): [" . string(matches) . "]"
-		" let matches = copy(s:cached_words)
-        return {'words': matches, 'refresh': 'always'}
+		return {'words': matches, 'refresh': 'always'}
 	endif
 endfunction
 
@@ -182,6 +179,7 @@ endfunction
 autocmd TextChangedI * call CompleteCaller()
 autocmd InsertEnter * let b:cmp_timer = timer_start(100, { -> CompleteCaller() }, {'repeat': -1})
 autocmd InsertLeave * call timer_stop(b:cmp_timer)
+inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 " Start repeating timer
 " let s:timer_id = timer_start(s:update_interval, 's:UpdateWords', {'repeat': -1})
 
